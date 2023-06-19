@@ -448,7 +448,7 @@ static int libc_open ( dvdcss_t dvdcss, const char *psz_device )
 {
 #ifdef _WIN32
     int wlen;
-    dvdcss->i_fd = -1;
+    dvdcss->i_fd = (io_fd) -1;
     wlen = MultiByteToWideChar( CP_UTF8, 0, psz_device, -1, NULL, 0 );
     if( wlen > 0 ) {
         wchar_t *wpath = (wchar_t*)malloc( sizeof(wchar_t) * wlen );
@@ -463,7 +463,7 @@ static int libc_open ( dvdcss_t dvdcss, const char *psz_device )
     dvdcss->i_fd = open( psz_device, O_BINARY );
 #endif
 
-    if( dvdcss->i_fd == -1 )
+    if( dvdcss->i_fd == (io_fd) -1 )
     {
         print_error( dvdcss, "failed to open device %s (%s)",
                      psz_device, strerror(errno) );
@@ -506,7 +506,7 @@ static int win2k_open ( dvdcss_t dvdcss, const char *psz_device )
         return -1;
     }
 
-    dvdcss->i_fd = (int) h_fd;
+    dvdcss->i_fd = (io_fd) h_fd;
     dvdcss->i_pos = 0;
 
     return 0;
