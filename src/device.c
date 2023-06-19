@@ -476,7 +476,8 @@ static int libc_open ( dvdcss_t dvdcss, const char *psz_device )
 #if defined( _WIN32 )
 static int win2k_open ( dvdcss_t dvdcss, const char *psz_device )
 {
-    char psz_dvd[7] = "\\\\.\\\0:";
+    HANDLE h_fd;
+    WCHAR psz_dvd[7] = L"\\\\.\\\0:";
     psz_dvd[4] = psz_device[0];
 
     /* To work around an M$ bug in IOCTL_DVD_READ_STRUCTURE, we need read
@@ -487,24 +488,42 @@ static int win2k_open ( dvdcss_t dvdcss, const char *psz_device )
      * won't send back the right result).
      * (See Microsoft Q241374: Read and Write Access Required for SCSI
      * Pass Through Requests) */
-    dvdcss->i_fd = (int)
-                CreateFile( psz_dvd, GENERIC_READ | GENERIC_WRITE,
+#if _WIN32_WINNT < 0x0602 /* _WIN32_WINNT_WIN8 */
+    h_fd =
+                CreateFileW( psz_dvd, GENERIC_READ | GENERIC_WRITE,
                             FILE_SHARE_READ | FILE_SHARE_WRITE,
                             NULL, OPEN_EXISTING,
                             FILE_FLAG_RANDOM_ACCESS, NULL );
 
-    if( (HANDLE) dvdcss->i_fd == INVALID_HANDLE_VALUE )
-        dvdcss->i_fd = (int)
-                    CreateFile( psz_dvd, GENERIC_READ, FILE_SHARE_READ,
+    if( h_fd == INVALID_HANDLE_VALUE )
+        h_fd =
+                    CreateFileW( psz_dvd, GENERIC_READ, FILE_SHARE_READ,
                                 NULL, OPEN_EXISTING,
                                 FILE_FLAG_RANDOM_ACCESS, NULL );
+#else
+    CREATEFILE2_EXTENDED_PARAMETERS params;
+    ZeroMemory(&params, sizeof(params));
+    params.dwSize = sizeof(params);
+    params.dwFileFlags = FILE_FLAG_RANDOM_ACCESS;
+    h_fd =
+                CreateFile2( psz_dvd, GENERIC_READ | GENERIC_WRITE,
+                            FILE_SHARE_READ | FILE_SHARE_WRITE,
+                            OPEN_EXISTING,
+                            &params );
 
-    if( (HANDLE) dvdcss->i_fd == INVALID_HANDLE_VALUE )
+    if( h_fd == INVALID_HANDLE_VALUE )
+        h_fd =
+                    CreateFile2( psz_dvd, GENERIC_READ, FILE_SHARE_READ,
+                                OPEN_EXISTING,
+                                &params );
+#endif
+    if( h_fd == INVALID_HANDLE_VALUE )
     {
         print_error( dvdcss, "failed to open device %s", psz_device );
         return -1;
     }
 
+    dvdcss->i_fd = (int) h_fd;
     dvdcss->i_pos = 0;
 
     return 0;
