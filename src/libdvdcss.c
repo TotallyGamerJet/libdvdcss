@@ -214,6 +214,7 @@ static int set_cache_directory( dvdcss_t dvdcss )
     if( psz_cache == NULL || psz_cache[0] == '\0' )
     {
 #ifdef _WIN32
+#if defined(WINAPI_FAMILY_PARTITION) && WINAPI_FAMILY_PARTITION (WINAPI_PARTITION_DESKTOP)
         char psz_home[PATH_MAX];
 
         /* Cache our keys in
@@ -225,6 +226,7 @@ static int set_cache_directory( dvdcss_t dvdcss )
             dvdcss->psz_cachefile[PATH_MAX - 1] = '\0';
             psz_cache = dvdcss->psz_cachefile;
         }
+#endif
 #else
 #ifdef __ANDROID__
         /* $HOME is not writable on __ANDROID__ so we have to create a custom
