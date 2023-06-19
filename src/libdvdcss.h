@@ -29,6 +29,7 @@
 #include "dvdcss/dvdcss.h"
 #include "css.h"
 #include "device.h"
+#include "ioctl.h"
 
 /*****************************************************************************
  * libdvdcss method: used like init flags
@@ -45,7 +46,7 @@ struct dvdcss_s
 {
     /* File descriptor */
     char * psz_device;
-    int    i_fd;
+    io_fd  i_fd;
     int    i_pos;
 
     /* File handling */

@@ -30,7 +30,7 @@
 /*****************************************************************************
  * ioctl_SendRPC: set RPC status for the drive
  *****************************************************************************/
-static int ioctl_SendRPC( int i_fd, int i_pdrc )
+static int ioctl_SendRPC( io_fd i_fd, int i_pdrc )
 {
     int i_ret;
 
@@ -141,7 +141,7 @@ static int ioctl_SendRPC( int i_fd, int i_pdrc )
     return i_ret;
 }
 
-static int set_region(int fd, int region)
+static int set_region(io_fd fd, int region)
 {
   int ret, region_mask;
 
@@ -164,7 +164,7 @@ static int set_region(int fd, int region)
   return 0;
 }
 
-static int print_region(int fd)
+static int print_region(io_fd fd)
 {
   int type, region_mask, rpc_scheme;
   int region = 1;

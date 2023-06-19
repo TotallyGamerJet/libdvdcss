@@ -109,7 +109,7 @@ static void OS2InitSDC( struct OS2_ExecSCSICmd *, int );
 /*****************************************************************************
  * ioctl_ReadCopyright: check whether the disc is encrypted or not
  *****************************************************************************/
-int ioctl_ReadCopyright( int i_fd, int i_layer, int *pi_copyright )
+int ioctl_ReadCopyright( io_fd i_fd, int i_layer, int *pi_copyright )
 {
     int i_ret;
 
@@ -229,7 +229,7 @@ int ioctl_ReadCopyright( int i_fd, int i_layer, int *pi_copyright )
 /*****************************************************************************
  * ioctl_ReadDiscKey: get the disc key
  *****************************************************************************/
-int ioctl_ReadDiscKey( int i_fd, const int *pi_agid, uint8_t *p_key )
+int ioctl_ReadDiscKey( io_fd i_fd, const int *pi_agid, uint8_t *p_key )
 {
     int i_ret;
 
@@ -362,7 +362,7 @@ int ioctl_ReadDiscKey( int i_fd, const int *pi_agid, uint8_t *p_key )
 /*****************************************************************************
  * ioctl_ReadTitleKey: get the title key
  *****************************************************************************/
-int ioctl_ReadTitleKey( int i_fd, const int *pi_agid, int i_pos, uint8_t *p_key )
+int ioctl_ReadTitleKey( io_fd i_fd, const int *pi_agid, int i_pos, uint8_t *p_key )
 {
     int i_ret;
 
@@ -494,7 +494,7 @@ int ioctl_ReadTitleKey( int i_fd, const int *pi_agid, int i_pos, uint8_t *p_key 
 /*****************************************************************************
  * ioctl_ReportAgid: get AGID from the drive
  *****************************************************************************/
-int ioctl_ReportAgid( int i_fd, int *pi_agid )
+int ioctl_ReportAgid( io_fd i_fd, int *pi_agid )
 {
     int i_ret;
 
@@ -589,7 +589,7 @@ int ioctl_ReportAgid( int i_fd, int *pi_agid )
 /*****************************************************************************
  * ioctl_ReportChallenge: get challenge from the drive
  *****************************************************************************/
-int ioctl_ReportChallenge( int i_fd, const int *pi_agid, uint8_t *p_challenge )
+int ioctl_ReportChallenge( io_fd i_fd, const int *pi_agid, uint8_t *p_challenge )
 {
     int i_ret;
 
@@ -697,7 +697,7 @@ int ioctl_ReportChallenge( int i_fd, const int *pi_agid, uint8_t *p_challenge )
 /*****************************************************************************
  * ioctl_ReportASF: get ASF from the drive
  *****************************************************************************/
-int ioctl_ReportASF( int i_fd, int *pi_asf )
+int ioctl_ReportASF( io_fd i_fd, int *pi_asf )
 {
     int i_ret;
 
@@ -807,7 +807,7 @@ int ioctl_ReportASF( int i_fd, int *pi_asf )
 /*****************************************************************************
  * ioctl_ReportKey1: get the first key from the drive
  *****************************************************************************/
-int ioctl_ReportKey1( int i_fd, const int *pi_agid, uint8_t *p_key )
+int ioctl_ReportKey1( io_fd i_fd, const int *pi_agid, uint8_t *p_key )
 {
     int i_ret;
 
@@ -910,7 +910,7 @@ int ioctl_ReportKey1( int i_fd, const int *pi_agid, uint8_t *p_key )
 /*****************************************************************************
  * ioctl_InvalidateAgid: invalidate the current AGID
  *****************************************************************************/
-int ioctl_InvalidateAgid( int i_fd, int *pi_agid )
+int ioctl_InvalidateAgid( io_fd i_fd, int *pi_agid )
 {
     int i_ret;
 
@@ -993,7 +993,7 @@ int ioctl_InvalidateAgid( int i_fd, int *pi_agid )
 /*****************************************************************************
  * ioctl_SendChallenge: send challenge to the drive
  *****************************************************************************/
-int ioctl_SendChallenge( int i_fd, const int *pi_agid, const uint8_t *p_challenge )
+int ioctl_SendChallenge( io_fd i_fd, const int *pi_agid, const uint8_t *p_challenge )
 {
     int i_ret;
 
@@ -1102,7 +1102,7 @@ int ioctl_SendChallenge( int i_fd, const int *pi_agid, const uint8_t *p_challeng
 /*****************************************************************************
  * ioctl_SendKey2: send the second key to the drive
  *****************************************************************************/
-int ioctl_SendKey2( int i_fd, const int *pi_agid, const uint8_t *p_key )
+int ioctl_SendKey2( io_fd i_fd, const int *pi_agid, const uint8_t *p_key )
 {
     int i_ret;
 
@@ -1211,7 +1211,7 @@ int ioctl_SendKey2( int i_fd, const int *pi_agid, const uint8_t *p_key )
 /*****************************************************************************
  * ioctl_ReportRPC: get RPC (Regional Playback Control) status for the drive
  *****************************************************************************/
-int ioctl_ReportRPC( int i_fd, int *p_type, int *p_mask, int *p_scheme )
+int ioctl_ReportRPC( io_fd i_fd, int *p_type, int *p_mask, int *p_scheme )
 {
     int i_ret;
 
@@ -1422,7 +1422,7 @@ static void SolarisInitUSCSI( struct uscsi_cmd *p_sc, int i_type )
  * Solaris 8). Fortunately, on these old releases non-root users are
  * allowed to perform USCSICMD ioctls on removable media devices.
  *****************************************************************************/
-static int SolarisSendUSCSI( int i_fd, struct uscsi_cmd *p_sc )
+static int SolarisSendUSCSI( io_fd i_fd, struct uscsi_cmd *p_sc )
 {
     void *p_handle;
 

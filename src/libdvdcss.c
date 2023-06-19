@@ -310,7 +310,7 @@ static int init_cache_dir( dvdcss_t dvdcss )
         "# For information about cache directory tags, see:\r\n"
         "#   http://www.brynosaurus.com/cachedir/\r\n";
     char psz_tagfile[PATH_MAX];
-    int i_fd, i_ret;
+    io_fd i_fd, i_ret;
 
     i_ret = exists_or_mkdir( dvdcss->psz_cachefile, 0755 );
     if( i_ret < 0 && errno != EEXIST )

@@ -25,17 +25,23 @@
 
 #include <stdint.h>
 
-int ioctl_ReadCopyright     ( int, int, int * );
-int ioctl_ReadDiscKey       ( int, const int *, uint8_t * );
-int ioctl_ReadTitleKey      ( int, const int *, int, uint8_t * );
-int ioctl_ReportAgid        ( int, int * );
-int ioctl_ReportChallenge   ( int, const int *, uint8_t * );
-int ioctl_ReportKey1        ( int, const int *, uint8_t * );
-int ioctl_ReportASF         ( int, int * );
-int ioctl_InvalidateAgid    ( int, int * );
-int ioctl_SendChallenge     ( int, const int *, const uint8_t * );
-int ioctl_SendKey2          ( int, const int *, const uint8_t * );
-int ioctl_ReportRPC         ( int, int *, int *, int * );
+#ifdef _WIN32
+typedef intptr_t   io_fd;
+#else
+typedef int        io_fd;
+#endif
+
+int ioctl_ReadCopyright     ( io_fd, int, int * );
+int ioctl_ReadDiscKey       ( io_fd, const int *, uint8_t * );
+int ioctl_ReadTitleKey      ( io_fd, const int *, int, uint8_t * );
+int ioctl_ReportAgid        ( io_fd, int * );
+int ioctl_ReportChallenge   ( io_fd, const int *, uint8_t * );
+int ioctl_ReportKey1        ( io_fd, const int *, uint8_t * );
+int ioctl_ReportASF         ( io_fd, int * );
+int ioctl_InvalidateAgid    ( io_fd, int * );
+int ioctl_SendChallenge     ( io_fd, const int *, const uint8_t * );
+int ioctl_SendKey2          ( io_fd, const int *, const uint8_t * );
+int ioctl_ReportRPC         ( io_fd, int *, int *, int * );
 
 #define DVD_DISCKEY_SIZE 2048
 

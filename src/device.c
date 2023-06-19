@@ -448,7 +448,7 @@ static int libc_open ( dvdcss_t dvdcss, const char *psz_device )
 {
 #ifdef _WIN32
     int wlen;
-    dvdcss->i_fd = -1;
+    dvdcss->i_fd = (io_fd) -1;
     wlen = MultiByteToWideChar( CP_UTF8, 0, psz_device, -1, NULL, 0 );
     if( wlen > 0 ) {
         wchar_t *wpath = (wchar_t*)malloc( sizeof(wchar_t) * wlen );
@@ -463,7 +463,7 @@ static int libc_open ( dvdcss_t dvdcss, const char *psz_device )
     dvdcss->i_fd = open( psz_device, O_BINARY );
 #endif
 
-    if( dvdcss->i_fd == -1 )
+    if( dvdcss->i_fd == (io_fd) -1 )
     {
         print_error( dvdcss, "failed to open device %s (%s)",
                      psz_device, strerror(errno) );
@@ -476,6 +476,7 @@ static int libc_open ( dvdcss_t dvdcss, const char *psz_device )
 #if defined( _WIN32 )
 static int win2k_open ( dvdcss_t dvdcss, const char *psz_device )
 {
+    HANDLE h_fd;
     char psz_dvd[7] = "\\\\.\\\0:";
     psz_dvd[4] = psz_device[0];
 
@@ -487,24 +488,25 @@ static int win2k_open ( dvdcss_t dvdcss, const char *psz_device )
      * won't send back the right result).
      * (See Microsoft Q241374: Read and Write Access Required for SCSI
      * Pass Through Requests) */
-    dvdcss->i_fd = (int)
+    h_fd =
                 CreateFile( psz_dvd, GENERIC_READ | GENERIC_WRITE,
                             FILE_SHARE_READ | FILE_SHARE_WRITE,
                             NULL, OPEN_EXISTING,
                             FILE_FLAG_RANDOM_ACCESS, NULL );
 
-    if( (HANDLE) dvdcss->i_fd == INVALID_HANDLE_VALUE )
-        dvdcss->i_fd = (int)
+    if( h_fd == INVALID_HANDLE_VALUE )
+        h_fd =
                     CreateFile( psz_dvd, GENERIC_READ, FILE_SHARE_READ,
                                 NULL, OPEN_EXISTING,
                                 FILE_FLAG_RANDOM_ACCESS, NULL );
 
-    if( (HANDLE) dvdcss->i_fd == INVALID_HANDLE_VALUE )
+    if( h_fd == INVALID_HANDLE_VALUE )
     {
         print_error( dvdcss, "failed to open device %s", psz_device );
         return -1;
     }
 
+    dvdcss->i_fd = (io_fd) h_fd;
     dvdcss->i_pos = 0;
 
     return 0;
