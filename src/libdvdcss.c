@@ -106,6 +106,7 @@
 #ifdef HAVE_SYS_PARAM_H
 #   include <sys/param.h>
 #endif
+#undef HAVE_PWD_H
 #ifdef HAVE_PWD_H
 #   include <pwd.h>
 #endif
