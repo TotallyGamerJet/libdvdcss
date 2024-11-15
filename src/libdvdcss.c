@@ -240,6 +240,7 @@ static int set_cache_directory( dvdcss_t dvdcss )
         }
 #else
         char *psz_home = NULL;
+#undef HAVE_PWD_H
 #ifdef HAVE_PWD_H
         struct passwd *p_pwd;
 
