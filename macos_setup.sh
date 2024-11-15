@@ -1,2 +1,2 @@
 autoreconf -if
-./configure --disable-dependency-tracking --prefix=./src/libdvdcss
+./configure --disable-dependency-tracking --prefix="$PWD"/src/libdvdcss
