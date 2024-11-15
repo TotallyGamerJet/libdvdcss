@@ -30,6 +30,7 @@
 /*****************************************************************************
  * iovec structure: vectored data entry
  *****************************************************************************/
+#undef HAVE_SYS_UIO_H
 #ifndef HAVE_SYS_UIO_H
 #   include <io.h>                                                 /* read() */
 struct iovec
