@@ -40,7 +40,7 @@
 #   include <sys/param.h>
 #endif
 #include <fcntl.h>
-
+#undef HAVE_UNISTD_H
 #ifdef HAVE_UNISTD_H
 #   include <unistd.h>
 #endif
