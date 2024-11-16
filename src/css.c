@@ -293,7 +293,7 @@ int dvdcss_title ( dvdcss_t dvdcss, int i_block )
                 print_error( dvdcss,
                              "Error caching key on disk, continuing..\n" );
             }
-            fclose( i_fd );
+            fclose( file );
         }
     }
 
