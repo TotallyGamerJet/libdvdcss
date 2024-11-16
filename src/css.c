@@ -229,7 +229,7 @@ int dvdcss_title ( dvdcss_t dvdcss, int i_block )
         file = fopen( dvdcss->psz_cachefile, "r" ); // I wrote it this way bc cxgo doesn't support open :/
         b_cache = 1;
 
-        if( i_fd != 0 )
+        if( file != 0 )
         {
             char psz_key[PSZ_KEY_SIZE];
             unsigned int k0, k1, k2, k3, k4;
