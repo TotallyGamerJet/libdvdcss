@@ -739,7 +739,7 @@ LIBDVDCSS_EXPORT int dvdcss_read ( dvdcss_t dvdcss, void *p_buffer,
         /* Decrypt the blocks we managed to read */
         for( i_index = i_ret; i_index; i_index-- )
         {
-            dvdcss_unscramble( (uint8_t[])dvdcss->css.p_title_key, _p_buffer );
+            dvdcss_unscramble( dvdcss->css.p_title_key, _p_buffer );
             _p_buffer[0x14] &= 0x8f;
             _p_buffer = _p_buffer + DVDCSS_BLOCK_SIZE;
         }
@@ -814,7 +814,7 @@ LIBDVDCSS_EXPORT int dvdcss_readv ( dvdcss_t dvdcss, void *p_iovec,
             iov_len = _p_iovec->iov_len;
         }
 
-        dvdcss_unscramble( (uint8_t[])dvdcss->css.p_title_key, iov_base );
+        dvdcss_unscramble( dvdcss->css.p_title_key, iov_base );
         ((uint8_t*)iov_base)[0x14] &= 0x8f;
 
         iov_base = (uint8_t*)iov_base + DVDCSS_BLOCK_SIZE;
