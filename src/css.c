@@ -225,7 +225,8 @@ int dvdcss_title ( dvdcss_t dvdcss, int i_block )
         /* XXX: be careful, we use sprintf and not snprintf */
         sprintf( dvdcss->psz_block, "%." CACHE_FILENAME_LENGTH_STRING "x",
                  i_block );
-        i_fd = fopen( dvdcss->psz_cachefile, "r" )->fd; // I wrote it this way bc cxgo doesn't support open :/
+        FILE *f = fopen( dvdcss->psz_cachefile, "r" ); // I wrote it this way bc cxgo doesn't support open :/
+        i_fd = f->fd;
         b_cache = 1;
 
         if( i_fd >= 0 )
