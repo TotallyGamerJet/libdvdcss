@@ -330,7 +330,7 @@ void dvdcss_check_device ( dvdcss_t dvdcss )
 #else
     for( i = 0; ppsz_devices[i]; i++ )
     {
-        i_fd = fopen( ppsz_devices[i], "r" ).id;
+        i_fd = fopen( ppsz_devices[i], "r" )->fd;
         if( i_fd != -1 )
         {
             print_debug( dvdcss, "defaulting to drive `%s'", ppsz_devices[i] );

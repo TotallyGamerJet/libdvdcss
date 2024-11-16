@@ -225,7 +225,7 @@ int dvdcss_title ( dvdcss_t dvdcss, int i_block )
         /* XXX: be careful, we use sprintf and not snprintf */
         sprintf( dvdcss->psz_block, "%." CACHE_FILENAME_LENGTH_STRING "x",
                  i_block );
-        i_fd = fopen( dvdcss->psz_cachefile, "r" ).fd; // I wrote it this way bc cxgo doesn't support open :/
+        i_fd = fopen( dvdcss->psz_cachefile, "r" )->fd; // I wrote it this way bc cxgo doesn't support open :/
         b_cache = 1;
 
         if( i_fd >= 0 )
@@ -278,7 +278,7 @@ int dvdcss_title ( dvdcss_t dvdcss, int i_block )
     /* Key is valid, we store it on disk. */
     if( dvdcss->psz_cachefile[0] && b_cache )
     {
-        i_fd = fopen(dvdcss->psz_cachefile, "w+").fd; // open( dvdcss->psz_cachefile, O_RDWR|O_CREAT, 0644 );
+        i_fd = fopen(dvdcss->psz_cachefile, "w+")->fd; // open( dvdcss->psz_cachefile, O_RDWR|O_CREAT, 0644 );
         if( i_fd >= 0 )
         {
             char psz_key[PSZ_KEY_SIZE + 2];
