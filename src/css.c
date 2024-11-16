@@ -549,7 +549,7 @@ static int dvdcss_titlekey( dvdcss_t dvdcss, int i_pos, dvd_key p_title_key )
  * sec: sector to unscramble
  * key: title key for this sector
  *****************************************************************************/
-int dvdcss_unscramble( dvd_key p_key, uint8_t *p_sec )
+int dvdcss_unscramble( /*dvd_key*/ uint8_t []p_key, uint8_t *p_sec )
 {
     unsigned int    i_t1, i_t2, i_t3, i_t4, i_t5, i_t6;
     uint8_t        *p_end = p_sec + DVDCSS_BLOCK_SIZE;
