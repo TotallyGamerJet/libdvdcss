@@ -313,7 +313,8 @@ static int init_cache_dir( dvdcss_t dvdcss )
         "# For information about cache directory tags, see:\r\n"
         "#   http://www.brynosaurus.com/cachedir/\r\n";
     char psz_tagfile[PATH_MAX];
-    int i_fd, i_ret;
+    int i_ret;
+    FILE *file;
 
     i_ret = exists_or_mkdir( dvdcss->psz_cachefile, 0755 );
     if( i_ret < 0 && errno != EEXIST )
@@ -336,16 +337,16 @@ static int init_cache_dir( dvdcss_t dvdcss )
         return -1;
     }
 
-    i_fd = open( psz_tagfile, O_RDWR|O_CREAT, 0644 );
-    if( i_fd >= 0 )
+    file = fopen( psz_tagfile, "w+"); //O_RDWR|O_CREAT, 0644 );
+    if( i_fd != 0)
     {
         ssize_t len = strlen(psz_tag);
-        if( write( i_fd, psz_tag, len ) < len )
+        if( fwrite(psz_tag, 1, len, file ) < len )
         {
             print_error( dvdcss,
                          "Error writing cache directory tag, continuing..\n" );
         }
-        close( i_fd );
+        fclose( file );
     }
     return 0;
 }
