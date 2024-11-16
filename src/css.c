@@ -235,7 +235,7 @@ int dvdcss_title ( dvdcss_t dvdcss, int i_block )
 
             psz_key[PSZ_KEY_SIZE - 1] = '\0';
 
-            if( read( i_fd, psz_key, PSZ_KEY_SIZE - 1 ) == PSZ_KEY_SIZE - 1
+            if( fread( fdopen(i_fd, "r"), psz_key, PSZ_KEY_SIZE - 1 ) == PSZ_KEY_SIZE - 1
                  && sscanf( psz_key, "%x:%x:%x:%x:%x",
                             &k0, &k1, &k2, &k3, &k4 ) == 5 )
             {
