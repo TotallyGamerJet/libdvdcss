@@ -632,7 +632,7 @@ static int libc_read ( dvdcss_t dvdcss, void *p_buffer, int i_blocks )
     off_t i_size, i_ret, i_ret_blocks;
 
     i_size = (off_t)i_blocks * (off_t)DVDCSS_BLOCK_SIZE;
-    i_ret = read( dvdcss->i_fd, p_buffer, i_size );
+    i_ret = fread( fdopen(dvdcss->i_fd, "rb"), p_buffer, i_size );
 
     if( i_ret < 0 )
     {
@@ -746,7 +746,7 @@ static int libc_readv ( dvdcss_t dvdcss, const struct iovec *p_iovec,
             continue;
         }
 
-        i_bytes = read( dvdcss->i_fd, p_base, i_len );
+        i_bytes = fread( fdopen(dvdcss->i_fd, "rb"), p_base, i_len );
 
         if( i_bytes < 0 )
         {
