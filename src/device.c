@@ -460,7 +460,7 @@ static int libc_open ( dvdcss_t dvdcss, const char *psz_device )
         }
     }
 #else
-    dvdcss->i_fd = open( psz_device, O_BINARY );
+    dvdcss->i_fd = fileno(fopen( psz_device, "rb" ));
 #endif
 
     if( dvdcss->i_fd == -1 )
