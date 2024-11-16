@@ -195,7 +195,8 @@ int dvdcss_title ( dvdcss_t dvdcss, int i_block )
     struct dvd_title *p_title;
     struct dvd_title *p_newtitle;
     dvd_key p_title_key;
-    int i_fd, i_ret = -1, b_cache = 0;
+    int i_ret = -1, b_cache = 0;
+    FILE *file;
 
     if( ! dvdcss->b_scrambled )
     {
@@ -225,17 +226,17 @@ int dvdcss_title ( dvdcss_t dvdcss, int i_block )
         /* XXX: be careful, we use sprintf and not snprintf */
         sprintf( dvdcss->psz_block, "%." CACHE_FILENAME_LENGTH_STRING "x",
                  i_block );
-        i_fd = fileno(fopen( dvdcss->psz_cachefile, "r" )); // I wrote it this way bc cxgo doesn't support open :/
+        file = fopen( dvdcss->psz_cachefile, "r" ); // I wrote it this way bc cxgo doesn't support open :/
         b_cache = 1;
 
-        if( i_fd >= 0 )
+        if( i_fd != 0 )
         {
             char psz_key[PSZ_KEY_SIZE];
             unsigned int k0, k1, k2, k3, k4;
 
             psz_key[PSZ_KEY_SIZE - 1] = '\0';
 
-            if( fread(psz_key, 1, PSZ_KEY_SIZE - 1, fdopen(i_fd, "r") ) == PSZ_KEY_SIZE - 1
+            if( fread(psz_key, 1, PSZ_KEY_SIZE - 1, file) == PSZ_KEY_SIZE - 1
                  && sscanf( psz_key, "%x:%x:%x:%x:%x",
                             &k0, &k1, &k2, &k3, &k4 ) == 5 )
             {
@@ -251,7 +252,7 @@ int dvdcss_title ( dvdcss_t dvdcss, int i_block )
                 i_ret = 1;
             }
 
-            close( i_fd );
+            close( file );
         }
     }
 
