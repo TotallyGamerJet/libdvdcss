@@ -338,7 +338,7 @@ static int init_cache_dir( dvdcss_t dvdcss )
     }
 
     file = fopen( psz_tagfile, "w+"); //O_RDWR|O_CREAT, 0644 );
-    if( i_fd != 0)
+    if( file != 0)
     {
         ssize_t len = strlen(psz_tag);
         if( fwrite(psz_tag, 1, len, file ) < len )
