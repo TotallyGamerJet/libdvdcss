@@ -1643,7 +1643,7 @@ static int CrackTitleKey( dvdcss_t dvdcss, int i_pos, int i_len,
  * Then it guesses that the plain text for first encrypted bytes are
  * a continuation of that pattern.
  *****************************************************************************/
-static int AttackPattern( const uint8_t p_sec[ DVDCSS_BLOCK_SIZE ],
+static int AttackPattern( const uint8_t *p_sec/*[ DVDCSS_BLOCK_SIZE ]*/,
                           uint8_t *p_key )
 {
     unsigned int i_best_plen = 0;
