@@ -428,7 +428,7 @@ int dvdcss_close_device ( dvdcss_t dvdcss )
     else
 #endif
     {
-        int i_ret = close( dvdcss->i_fd );
+        int i_ret = fclose( fdopen(dvdcss->i_fd, "r") );
         if( i_ret < 0 )
         {
             print_error( dvdcss, "Failed to close fd, data loss possible." );
