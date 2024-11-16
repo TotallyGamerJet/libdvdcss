@@ -252,7 +252,7 @@ int dvdcss_title ( dvdcss_t dvdcss, int i_block )
                 i_ret = 1;
             }
 
-            close( file );
+            fclose( file );
         }
     }
 
