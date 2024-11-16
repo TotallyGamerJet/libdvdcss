@@ -279,8 +279,8 @@ int dvdcss_title ( dvdcss_t dvdcss, int i_block )
     /* Key is valid, we store it on disk. */
     if( dvdcss->psz_cachefile[0] && b_cache )
     {
-        i_fd = fileno(fopen(dvdcss->psz_cachefile, "w+")); // open( dvdcss->psz_cachefile, O_RDWR|O_CREAT, 0644 );
-        if( i_fd >= 0 )
+        file = fopen(dvdcss->psz_cachefile, "w+"); // open( dvdcss->psz_cachefile, O_RDWR|O_CREAT, 0644 );
+        if( file != 0 )
         {
             char psz_key[PSZ_KEY_SIZE + 2];
 
@@ -288,12 +288,12 @@ int dvdcss_title ( dvdcss_t dvdcss, int i_block )
                               p_title_key[0], p_title_key[1], p_title_key[2],
                               p_title_key[3], p_title_key[4] );
 
-            if( write( i_fd, psz_key, PSZ_KEY_SIZE + 1 ) < PSZ_KEY_SIZE + 1 )
+            if( fwrite( psz_key, 1, PSZ_KEY_SIZE + 1, file ) < PSZ_KEY_SIZE + 1 )
             {
                 print_error( dvdcss,
                              "Error caching key on disk, continuing..\n" );
             }
-            close( i_fd );
+            fclose( i_fd );
         }
     }
 
